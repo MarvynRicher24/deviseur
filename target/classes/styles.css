@@ -1,25 +1,29 @@
 /* Fond global */
 .root {
-    -fx-background-color: #e8e8e8;
+    -fx-background-color: white;
 }
 
 /* Header */
 .header {
--fx-padding: 10 10 10 10;
+    -fx-padding: 10 10 10 10;
+}
+
+.header-light {
+    -fx-background-color: #fafafa;
 }
 
 /* Carte blanche centrée */
 .card {
-    -fx-background-color: white;
-    -fx-padding: 40;
-    -fx-spacing: 20;
+    -fx-background-color: #fafafa;
+    -fx-padding: 10;
+    -fx-spacing: 10;
     -fx-background-radius: 8;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
 }
 
 /* Titres */
 .label-title {
-    -fx-font-size: 24px;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
 
@@ -54,6 +58,7 @@
     -fx-cursor: hand;
 }
 
+/* ADMIN */
 /* Nav active AdminPanel */
 .nav-item {
     -fx-cursor: hand;
@@ -69,21 +74,27 @@
     -fx-border-width: 0 0 2 0;
 }
 
+/* adminPanel */
+
+.list-scroll>.viewport {
+    -fx-background-color: #f2f2f2;
+}
+
 /* adminPanelOne */
 
 .table-light {
-  -fx-background-color: white;
-  -fx-cell-hover-color: #f0f0f0;
+    -fx-background-color: white;
+    -fx-cell-hover-color: #f0f0f0;
 }
 
 .button-icon {
-  -fx-background-color: transparent;
-  -fx-cursor: hand;
-  -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
 }
 
 .label-link {
-  -fx-text-fill: #1a73e8;
-  -fx-underline: true;
-  -fx-cursor: hand;
+    -fx-text-fill: #1a73e8;
+    -fx-underline: true;
+    -fx-cursor: hand;
 }

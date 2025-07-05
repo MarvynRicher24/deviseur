@@ -2,7 +2,6 @@ fr\musclegarage\deviseur\ui\MenuController.class
 fr\musclegarage\deviseur\util\Database.class
 fr\musclegarage\deviseur\ui\AdminPanelOneController.class
 fr\musclegarage\deviseur\dao\UserDaoJdbc.class
-fr\musclegarage\deviseur\ui\AdminPanelOneController$1.class
 fr\musclegarage\deviseur\dao\CategoryDao.class
 fr\musclegarage\deviseur\dao\UserDao.class
 fr\musclegarage\deviseur\model\User.class
@@ -11,6 +10,5 @@ fr\musclegarage\deviseur\ui\LoginController.class
 fr\musclegarage\deviseur\util\PasswordUtils.class
 fr\musclegarage\deviseur\ui\RegistrationController.class
 fr\musclegarage\deviseur\App.class
-fr\musclegarage\deviseur\ui\AdminPanelOneController$2.class
 fr\musclegarage\deviseur\ui\AdminPanelBaseController.class
 fr\musclegarage\deviseur\dao\CategoryDaoJdbc.class

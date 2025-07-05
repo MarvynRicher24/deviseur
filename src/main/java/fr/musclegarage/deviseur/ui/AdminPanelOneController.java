@@ -9,29 +9,21 @@ import fr.musclegarage.deviseur.dao.CategoryDao;
 import fr.musclegarage.deviseur.dao.CategoryDaoJdbc;
 import fr.musclegarage.deviseur.model.Category;
 import fr.musclegarage.deviseur.util.Database;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 public class AdminPanelOneController {
     @FXML
-    private TableView<Category> table;
-    @FXML
-    private TableColumn<Category, String> colName, colImage;
-    @FXML
-    private TableColumn<Category, Void> colAction;
+    private VBox listContainer;
     @FXML
     private Button btnSave;
 
-    private final ObservableList<Category> data = FXCollections.observableArrayList();
+    private final List<Category> items = new ArrayList<>();
     private final List<Category> deleted = new ArrayList<>();
     private CategoryDao dao;
 
@@ -40,87 +32,65 @@ public class AdminPanelOneController {
         try {
             Connection conn = Database.getConnection();
             dao = new CategoryDaoJdbc(conn);
-            setupTable();
             loadData();
         } catch (Exception e) {
-            // À remplacer par un logger si besoin
             e.printStackTrace();
         }
     }
 
-    private void setupTable() {
-        table.setEditable(true);
+    private void loadData() throws Exception {
+        listContainer.getChildren().clear();
+        items.clear();
+        items.addAll(dao.findAll());
+        for (Category c : items) {
+            listContainer.getChildren().add(createRow(c));
+        }
+        deleted.clear();
+        btnSave.setDisable(true);
+    }
 
-        // Colonne Nom de catégorie
-        colName.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().getName()));
-        colName.setCellFactory(TextFieldTableCell.forTableColumn());
-        colName.setOnEditCommit(e -> {
-            e.getRowValue().setName(e.getNewValue());
+    private HBox createRow(Category c) {
+        HBox row = new HBox(10);
+        row.setStyle("-fx-background-color: white; -fx-padding: 8; -fx-alignment: CENTER_LEFT;");
+
+        // Label Nom et champ Nom
+        Label lblName = new Label("Nom de catégorie :");
+        lblName.setPrefWidth(120);
+        TextField tfName = new TextField(c.getName());
+        tfName.setPromptText("Entrez le nom");
+        tfName.setPrefWidth(200);
+        tfName.textProperty().addListener((obs, old, neu) -> {
+            c.setName(neu);
             markDirty();
         });
 
-        // Colonne Image : clic pour importer
-        colImage.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().getImageFilename()));
-        colImage.setCellFactory(tc -> new TableCell<Category, String>() {
-            private final Label lbl = new Label();
-            {
-                lbl.getStyleClass().add("label-link");
-                lbl.setOnMouseClicked(evt -> {
-                    Category cat = getTableRow().getItem();
-                    if (cat == null)
-                        return;
-                    FileChooser chooser = new FileChooser();
-                    chooser.getExtensionFilters().add(
-                            new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
-                    File f = chooser.showOpenDialog(table.getScene().getWindow());
-                    if (f != null) {
-                        cat.setImageFilename(f.getName());
-                        lbl.setText(f.getName());
-                        markDirty();
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(String imgName, boolean empty) {
-                super.updateItem(imgName, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    lbl.setText(imgName == null ? "(cliquer pour choisir)" : imgName);
-                    setGraphic(lbl);
-                }
+        // Label Image et bouton Importer
+        Label lblImg = new Label("Image :");
+        lblImg.setPrefWidth(60);
+        Button btnImport = new Button(c.getImageFilename().isEmpty() ? "Importer" : c.getImageFilename());
+        btnImport.setPrefWidth(120);
+        btnImport.setOnAction(evt -> {
+            FileChooser chooser = new FileChooser();
+            chooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
+            File f = chooser.showOpenDialog(listContainer.getScene().getWindow());
+            if (f != null) {
+                c.setImageFilename(f.getName());
+                btnImport.setText(f.getName());
+                markDirty();
             }
         });
 
-        // Colonne Supprimer
-        colAction.setCellFactory(param -> new TableCell<Category, Void>() {
-            private final Button del = new Button("🗑️");
-            {
-                del.getStyleClass().add("button-icon");
-                del.setOnAction(e -> {
-                    Category c = getTableView().getItems().get(getIndex());
-                    getTableView().getItems().remove(c);
-                    deleted.add(c);
-                    markDirty();
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : del);
-            }
+        // Bouton Supprimer
+        Button btnDel = new Button("Supprimer");
+        btnDel.setOnAction(e -> {
+            listContainer.getChildren().remove(row);
+            deleted.add(c);
+            markDirty();
         });
 
-        table.setItems(data);
-    }
-
-    private void loadData() throws Exception {
-        data.clear();
-        data.addAll(dao.findAll());
-        deleted.clear();
-        btnSave.setDisable(true);
+        row.getChildren().addAll(lblName, tfName, lblImg, btnImport, btnDel);
+        return row;
     }
 
     @FXML
@@ -128,21 +98,21 @@ public class AdminPanelOneController {
         Category c = new Category();
         c.setName("");
         c.setImageFilename("");
-        data.add(c);
-        table.getSelectionModel().select(c);
+        items.add(c);
+        listContainer.getChildren().add(createRow(c));
         markDirty();
     }
 
     @FXML
     private void onSave() {
         try {
-            // Suppression des éléments marqués
+            // supprimer
             for (Category c : deleted) {
                 if (c.getId() != 0)
                     dao.delete(c.getId());
             }
-            // Insertion / mise à jour
-            for (Category c : data) {
+            // insert/update
+            for (Category c : items) {
                 if (c.getId() == 0)
                     dao.insert(c);
                 else
@@ -150,7 +120,6 @@ public class AdminPanelOneController {
             }
             loadData();
         } catch (Exception e) {
-            // À remplacer par un logger si besoin
             e.printStackTrace();
         }
     }
