@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox alignment="CENTER" spacing="20" stylesheets="@styles.css"
+    xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="fr.musclegarage.deviseur.ui.MenuController">
+    <ImageView fitHeight="80" fitWidth="200" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@logo.png" />
+        </image>
+    </ImageView>
+
+    <!-- Ecran carte blanche -->
+    <VBox styleClass="card" alignment="CENTER" spacing="20">
+        <Label text="CONNECTÉ(E)" styleClass="label-title" />
+
+        <VBox spacing="10" alignment="CENTER">
+            <Button text="Créer devis" fx:id="btnCreate" styleClass="button-primary"
+                onAction="#onCreateQuote" />
+            <Button text="Mes devis" fx:id="btnList" styleClass="button-primary"
+                onAction="#onListQuotes" />
+            <Button text="Se déconnecter" styleClass="button-link" onAction="#onLogout" />
+        </VBox>
+    </VBox>
+</VBox>

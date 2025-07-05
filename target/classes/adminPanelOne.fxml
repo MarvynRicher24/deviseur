@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20"
+    xmlns:fx="http://javafx.com/fxml/1"
+    stylesheets="@styles.css"
+    fx:controller="fr.musclegarage.deviseur.ui.AdminPanelOneController">
+    <ImageView fitHeight="80" fitWidth="200" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@logo.png" />
+        </image>
+    </ImageView>
+
+    <!-- Header -->
+    <top>
+        <HBox spacing="10" styleClass="card" alignment="CENTER_LEFT">
+            <Button text="Se déconnecter"
+                onAction="#onLogout"
+                styleClass="button-link" />
+            <!-- cet espace vide pousse le label à droite sans code -->
+            <Label HBox.hgrow="ALWAYS" />
+            <Label text="ADMIN"
+                styleClass="label-title" />
+        </HBox>
+    </top>
+
+    <!-- Contenu vide ou futur -->
+    <center>
+        <Label text="Bienvenue dans l'espace admin"
+            styleClass="label-field" />
+    </center>
+</BorderPane>
