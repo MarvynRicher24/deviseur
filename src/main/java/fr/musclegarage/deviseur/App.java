@@ -17,7 +17,7 @@ public class App extends Application {
 
     public static void showRegistration() throws Exception {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/registration.fxml"));
-        Scene scene = new Scene(loader.load(), 600, 600);
+        Scene scene = new Scene(loader.load(), 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Deviseur - Inscription");
         primaryStage.show();
@@ -25,7 +25,7 @@ public class App extends Application {
 
     public static void showLogin() throws Exception {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/login.fxml"));
-        Scene scene = new Scene(loader.load(), 600, 500);
+        Scene scene = new Scene(loader.load(), 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Deviseur - Connexion");
         primaryStage.show();
@@ -33,7 +33,7 @@ public class App extends Application {
 
     public static void showMenu() throws Exception {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/menu.fxml"));
-        Scene scene = new Scene(loader.load(), 400, 400);
+        Scene scene = new Scene(loader.load(), 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Deviseur - Menu");
         primaryStage.show();

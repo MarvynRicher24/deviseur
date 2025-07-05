@@ -11,6 +11,6 @@ fr\musclegarage\deviseur\ui\LoginController.class
 fr\musclegarage\deviseur\util\PasswordUtils.class
 fr\musclegarage\deviseur\ui\RegistrationController.class
 fr\musclegarage\deviseur\App.class
+fr\musclegarage\deviseur\ui\AdminPanelOneController$2.class
 fr\musclegarage\deviseur\ui\AdminPanelBaseController.class
 fr\musclegarage\deviseur\dao\CategoryDaoJdbc.class
-fr\musclegarage\deviseur\ui\AdminPanelOneController$1$1.class

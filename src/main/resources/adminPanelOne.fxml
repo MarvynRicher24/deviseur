@@ -4,17 +4,41 @@
 
 <VBox spacing="10" xmlns="http://javafx.com/javafx/20"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="fr.musclegarage.deviseur.ui.AdminPanelOneController">
-    <TableView fx:id="table" VBox.vgrow="ALWAYS">
+    fx:controller="fr.musclegarage.deviseur.ui.AdminPanelOneController"
+    stylesheets="@styles.css"
+    styleClass="card"
+    alignment="TOP_CENTER">
+
+    <!-- Titre -->
+    <Label text="Gestion des catégories de véhicule"
+        styleClass="label-title" />
+
+    <!-- Table -->
+    <TableView fx:id="table" VBox.vgrow="ALWAYS" styleClass="table-light">
         <columns>
-            <TableColumn text="ID" prefWidth="50" fx:id="colId" />
-            <TableColumn text="Nom" prefWidth="200" fx:id="colName" />
-            <TableColumn text="Image" prefWidth="200" fx:id="colImage" />
-            <TableColumn text="Actions" prefWidth="100" fx:id="colAction" />
+            <!-- Colonne Nom de catégorie -->
+            <TableColumn fx:id="colName"
+                text="Nom de catégorie"
+                prefWidth="250" />
+            <!-- Colonne Image -->
+            <TableColumn fx:id="colImage"
+                text="Image"
+                prefWidth="200" />
+            <!-- Colonne Supprimer (sans header) -->
+            <TableColumn fx:id="colAction"
+                text=""
+                prefWidth="100" />
         </columns>
     </TableView>
+
+    <!-- Boutons -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Ajouter" onAction="#onAdd" styleClass="button-primary" />
-        <Button text="Enregistrer" onAction="#onSave" fx:id="btnSave" styleClass="button-primary" />
+        <Button text="Ajouter"
+            onAction="#onAdd"
+            styleClass="button-primary" />
+        <Button fx:id="btnSave"
+            text="Enregistrer"
+            onAction="#onSave"
+            styleClass="button-primary" />
     </HBox>
 </VBox>

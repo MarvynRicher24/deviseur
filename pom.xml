@@ -32,7 +32,7 @@
     <dependency>
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
-      <version>11.2.1.jre17</version> <!-- Adapter à votre JDK -->
+      <version>11.2.1.jre17</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>

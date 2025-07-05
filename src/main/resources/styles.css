@@ -3,6 +3,11 @@
     -fx-background-color: #e8e8e8;
 }
 
+/* Header */
+.header {
+-fx-padding: 10 10 10 10;
+}
+
 /* Carte blanche centrée */
 .card {
     -fx-background-color: white;
@@ -62,4 +67,23 @@
     -fx-font-weight: bold;
     -fx-border-color: transparent transparent #000 transparent;
     -fx-border-width: 0 0 2 0;
+}
+
+/* adminPanelOne */
+
+.table-light {
+  -fx-background-color: white;
+  -fx-cell-hover-color: #f0f0f0;
+}
+
+.button-icon {
+  -fx-background-color: transparent;
+  -fx-cursor: hand;
+  -fx-font-size: 14px;
+}
+
+.label-link {
+  -fx-text-fill: #1a73e8;
+  -fx-underline: true;
+  -fx-cursor: hand;
 }
