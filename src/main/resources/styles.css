@@ -9,7 +9,7 @@
     -fx-padding: 40;
     -fx-spacing: 20;
     -fx-background-radius: 8;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10,0,0,2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
 }
 
 /* Titres */
@@ -24,7 +24,8 @@
 }
 
 /* TextFields & PasswordFields */
-.text-field, .password-field {
+.text-field,
+.password-field {
     -fx-pref-width: 300px;
     -fx-pref-height: 36px;
     -fx-background-radius: 4;
@@ -40,9 +41,25 @@
     -fx-background-radius: 20;
     -fx-font-size: 14px;
 }
+
 .button-link {
     -fx-background-color: transparent;
     -fx-underline: true;
     -fx-text-fill: #0066cc;
     -fx-cursor: hand;
+}
+
+/* Nav active AdminPanel */
+.nav-item {
+    -fx-cursor: hand;
+    -fx-text-fill: #666;
+    -fx-font-size: 14px;
+    -fx-padding: 5 10;
+}
+
+.nav-item-active {
+    -fx-text-fill: #000;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent transparent #000 transparent;
+    -fx-border-width: 0 0 2 0;
 }

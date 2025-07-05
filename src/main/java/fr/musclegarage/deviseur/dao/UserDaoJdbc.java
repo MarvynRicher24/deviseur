@@ -61,14 +61,13 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public boolean isAdmin(String username) throws SQLException {
-        String sql = "SELECT is_admin FROM dbo.Users WHERE username = ?";
+        // Variante simple : on considère que le seul "marvyn" est admin
+        String sql = "SELECT COUNT(*) FROM dbo.Users WHERE username = ? AND username = 'marvyn'";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getBoolean("is_admin");
-            }
-            return false;
+            rs.next();
+            return rs.getInt(1) > 0;
         }
     }
 

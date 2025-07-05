@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import fr.musclegarage.deviseur.model.User;
 
+
 public interface UserDao {
     void insert(User user) throws SQLException;
 

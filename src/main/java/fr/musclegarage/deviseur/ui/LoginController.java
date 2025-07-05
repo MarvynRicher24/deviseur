@@ -53,7 +53,9 @@ public class LoginController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Erreur BD : " + e.getMessage()).showAndWait();
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur interne : " + e.getMessage()).showAndWait();
+            e.printStackTrace(); // pour voir la trace complète dans la console
+            new Alert(Alert.AlertType.ERROR, "Erreur interne : " + e.getClass().getSimpleName()
+                    + " – " + e.getMessage()).showAndWait();
         }
     }
 

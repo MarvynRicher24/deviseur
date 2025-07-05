@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class App extends Application {
     private static Stage primaryStage;
 
-    //Première page qui s'ouvre
+    // Première page qui s'ouvre
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
@@ -40,13 +40,12 @@ public class App extends Application {
     }
 
     public static void showAdminPanelOne() throws Exception {
-    FXMLLoader loader = new FXMLLoader(App.class.getResource("/adminPanelOne.fxml"));
-    Scene scene = new Scene(loader.load(), 600, 400);
-    primaryStage.setScene(scene);
-    primaryStage.setTitle("Deviseur - Admin");
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/adminPanelBase.fxml"));
+        Scene scene = new Scene(loader.load(), 800, 600);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Deviseur - Admin");
         primaryStage.show();
-}
-
+    }
 
     public static void main(String[] args) {
         launch();

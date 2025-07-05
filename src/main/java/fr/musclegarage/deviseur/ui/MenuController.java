@@ -18,7 +18,7 @@ public class MenuController {
     @FXML
     public void onLogout() {
         try {
-            App.showRegistration(); // ou App.showLogin() selon votre flux
+            App.showLogin(); // ou App.showLogin() selon votre flux
         } catch (Exception e) {
             new javafx.scene.control.Alert(
                     javafx.scene.control.Alert.AlertType.ERROR,
