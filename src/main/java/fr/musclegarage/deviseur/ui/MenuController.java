@@ -2,12 +2,19 @@ package fr.musclegarage.deviseur.ui;
 
 import fr.musclegarage.deviseur.App;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
 public class MenuController {
 
     @FXML
     public void onCreateQuote() {
-        System.out.println("→ Créer devis");
+        try {
+            App.showUserPanel(); // ← nouvelle navigation
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Impossible d’ouvrir le créateur de devis : " + e.getMessage())
+                    .showAndWait();
+        }
     }
 
     @FXML

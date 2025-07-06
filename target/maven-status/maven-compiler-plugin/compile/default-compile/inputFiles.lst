@@ -1,6 +1,10 @@
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\App.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\CategoryDao.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\CategoryDaoJdbc.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ClientDao.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ClientDaoJdbc.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisDao.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisDaoJdbc.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ModelDao.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ModelDaoJdbc.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\MotorDao.java
@@ -12,6 +16,8 @@ C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\UserDao.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\UserDaoJdbc.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\model\Category.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\model\Client.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\model\Devis.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\model\Model.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\model\Motor.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\model\Option.java
@@ -26,5 +32,12 @@ C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\LoginController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\MenuController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\RegistrationController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelBaseController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelCategoryController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelClientController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelModelController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelMotorController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelOptionController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelRecapController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\util\Database.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\util\PasswordUtils.java

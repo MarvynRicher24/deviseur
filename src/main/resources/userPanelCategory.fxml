@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/20"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="fr.musclegarage.deviseur.ui.UserPanelCategoryController"
+    alignment="CENTER" spacing="10">
+    <Label text="Écran Catégorie (à implémenter)" styleClass="label-title" />
+</VBox>

@@ -39,6 +39,16 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    // Utilisateur lambda
+    public static void showUserPanel() throws Exception {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/userPanelBase.fxml"));
+        Scene scene = new Scene(loader.load(), 800, 600);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Deviseur - Création de devis");
+        primaryStage.show();
+    }
+
+    // Admin
     public static void showAdminPanelOne() throws Exception {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/adminPanelBase.fxml"));
         Scene scene = new Scene(loader.load(), 800, 600);
