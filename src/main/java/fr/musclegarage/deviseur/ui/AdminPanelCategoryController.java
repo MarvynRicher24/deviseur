@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
-public class AdminPanelOneController {
+public class AdminPanelCategoryController {
     @FXML
     private VBox listContainer;
     @FXML
@@ -56,11 +56,11 @@ public class AdminPanelOneController {
         // Label Nom et champ Nom
         Label lblName = new Label("Nom de catégorie :");
         lblName.setPrefWidth(120);
-        TextField tfName = new TextField(c.getName());
+        TextField tfName = new TextField(c.getCategoryName());
         tfName.setPromptText("Entrez le nom");
-        tfName.setPrefWidth(200);
+        tfName.setPrefColumnCount(30);
         tfName.textProperty().addListener((obs, old, neu) -> {
-            c.setName(neu);
+            c.setCategoryName(neu);
             markDirty();
         });
 
@@ -96,7 +96,7 @@ public class AdminPanelOneController {
     @FXML
     private void onAdd() {
         Category c = new Category();
-        c.setName("");
+        c.setCategoryName("");
         c.setImageFilename("");
         items.add(c);
         listContainer.getChildren().add(createRow(c));

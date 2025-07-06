@@ -2,12 +2,12 @@ package fr.musclegarage.deviseur.model;
 
 public class Category {
     private int id;
-    private String name;
+    private String categoryName;
     private String imageFilename;
 
-    public Category(int id, String name, String imageFilename) {
+    public Category(int id, String categoryName, String imageFilename) {
         this.id = id;
-        this.name = name;
+        this.categoryName = categoryName;
         this.imageFilename = imageFilename;
     }
 
@@ -23,12 +23,17 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString() {
+        return categoryName; // ou getName()
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getImageFilename() {

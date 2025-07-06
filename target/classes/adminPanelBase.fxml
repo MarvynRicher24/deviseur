@@ -51,11 +51,11 @@
                     styleClass="nav-item" />
                 <Label fx:id="navModel" text="Modèle véhicule" onMouseClicked="#onNavModel"
                     styleClass="nav-item" />
-                <Label fx:id="navEngine" text="Moteur" onMouseClicked="#onNavEngine"
+                <Label fx:id="navMotor" text="Moteur" onMouseClicked="#onNavMotor"
                     styleClass="nav-item" />
                 <Label fx:id="navOption" text="Option" onMouseClicked="#onNavOption"
                     styleClass="nav-item" />
-                <Label fx:id="navSubOption" text="Sous‑option" onMouseClicked="#onNavSubOption"
+                <Label fx:id="navOptionChoice" text="Choix option" onMouseClicked="#onNavOptionChoice"
                     styleClass="nav-item" />
             </HBox>
 

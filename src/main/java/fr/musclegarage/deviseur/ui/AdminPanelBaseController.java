@@ -11,7 +11,7 @@ public class AdminPanelBaseController {
     @FXML
     private StackPane contentPane;
     @FXML
-    private Label navCategory, navModel, navEngine, navOption, navSubOption;
+    private Label navCategory, navModel, navMotor, navOption, navOptionChoice;
 
     @FXML
     public void initialize() {
@@ -20,7 +20,7 @@ public class AdminPanelBaseController {
 
     private void switchTo(String fxmlPath, Label activeNav) {
         // reset styles
-        for (Label nav : new Label[] { navCategory, navModel, navEngine, navOption, navSubOption }) {
+        for (Label nav : new Label[] { navCategory, navModel, navMotor, navOption, navOptionChoice }) {
             nav.getStyleClass().remove("nav-item-active");
         }
         activeNav.getStyleClass().add("nav-item-active");
@@ -35,27 +35,27 @@ public class AdminPanelBaseController {
 
     @FXML
     void onNavCategory() {
-        switchTo("/adminPanelOne.fxml", navCategory);
+        switchTo("/adminPanelCategory.fxml", navCategory);
     }
 
     @FXML
     void onNavModel() {
-        switchTo("/adminPanelTwo.fxml", navModel);
+        switchTo("/adminPanelModel.fxml", navModel);
     }
 
     @FXML
-    void onNavEngine() {
-        switchTo("/adminPanelThree.fxml", navEngine);
+    void onNavMotor() {
+        switchTo("/adminPanelMotor.fxml", navMotor);
     }
 
     @FXML
     void onNavOption() {
-        switchTo("/adminPanelFour.fxml", navOption);
+        switchTo("/adminPanelOption.fxml", navOption);
     }
 
     @FXML
-    void onNavSubOption() {
-        switchTo("/adminPanelFive.fxml", navSubOption);
+    void onNavOptionChoice() {
+        switchTo("/adminPanelOptionChoice.fxml", navOptionChoice);
     }
 
     @FXML
