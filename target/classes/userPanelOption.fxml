@@ -1,10 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/20"
+<BorderPane xmlns="http://javafx.com/javafx/20"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="fr.musclegarage.deviseur.ui.UserPanelOptionController"
-    alignment="CENTER" spacing="10">
-    <Label text="Écran Options (à implémenter)" styleClass="label-title" />
-</VBox>
+    stylesheets="@styles.css"
+    styleClass="card">
+
+    <!-- Header : titre + total -->
+    <top>
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="0" left="10" />
+            </padding>
+            <Label text="CHOISISSEZ VOS OPTIONS" styleClass="label-title" />
+            <Region HBox.hgrow="ALWAYS" />
+            <VBox styleClass="card" spacing="5">
+                <padding>
+                    <Insets top="5" right="10" bottom="5" left="10" />
+                </padding>
+                <Label text="TOTAL :" />
+                <Label fx:id="lblTotal" text="0€" styleClass="label-title" />
+            </VBox>
+        </HBox>
+    </top>
+
+    <!-- Contenu : image modèle à gauche, options à droite -->
+    <center>
+        <HBox spacing="20">
+            <!-- 1) Affichage du modèle + superpositions -->
+            <StackPane fx:id="modelPane" prefWidth="400" prefHeight="300">
+                <!-- l'image de base du modèle -->
+                <ImageView fx:id="ivModelBase" fitWidth="400" fitHeight="300" preserveRatio="true" />
+                <!-- couche pour les overlays, ajoutée dynamiquement -->
+            </StackPane>
+
+            <!-- 2) Liste d'options dans un ScrollPane -->
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <content>
+                    <VBox fx:id="optionsContainer" spacing="20">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10" />
+                        </padding>
+                        <!-- généré dynamiquement via le controller -->
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </HBox>
+    </center>
+
+    <!-- Précédent & Suivant -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="0" right="10" bottom="10" left="10" />
+            </padding>
+            <Button text="Précédent" onAction="#onPrev" styleClass="button-primary" />
+            <Button fx:id="btnNext" text="Suivant" onAction="#onNext" styleClass="button-primary" />
+        </HBox>
+    </bottom>
+</BorderPane>

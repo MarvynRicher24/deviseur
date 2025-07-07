@@ -1,6 +1,11 @@
 package fr.musclegarage.deviseur.ui;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +21,7 @@ import fr.musclegarage.deviseur.model.Option;
 import fr.musclegarage.deviseur.model.OptionChoice;
 import fr.musclegarage.deviseur.util.Database;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -120,12 +126,29 @@ public class AdminPanelOptionChoiceController {
         btnImp.setPrefWidth(120);
         btnImp.setOnAction(e -> {
             FileChooser ch = new FileChooser();
-            ch.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg"));
+            ch.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
             File f = ch.showOpenDialog(listContainer.getScene().getWindow());
             if (f != null) {
-                oc.setOptionChoiceImage(f.getName());
-                btnImp.setText(f.getName());
-                markDirty();
+                try {
+                    // 1) Crée le dossier uploads/options s’il n’existe pas
+                    Path targetDir = Paths.get("uploads", "options");
+                    Files.createDirectories(targetDir);
+
+                    // 2) Copie le fichier sélectionné dans ce dossier
+                    Path target = targetDir.resolve(f.getName());
+                    Files.copy(f.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+
+                    // 3) Stocke uniquement le nom en mémoire (et lors de l’insert/update DB)
+                    oc.setOptionChoiceImage(f.getName());
+                    btnImp.setText(f.getName());
+                    markDirty();
+
+                } catch (IOException io) {
+                    new Alert(Alert.AlertType.ERROR,
+                            "Erreur lors de la copie de l’image : " + io.getMessage())
+                            .showAndWait();
+                }
             }
         });
 

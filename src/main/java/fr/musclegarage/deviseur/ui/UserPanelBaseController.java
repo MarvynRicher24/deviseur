@@ -53,8 +53,14 @@ public class UserPanelBaseController {
 
         /** Débloque et affiche l’étape option (index 4) */
     public void goToOption() {
-        steps.get(3).setDisable(false);
-        showStep(3);
+        steps.get(4).setDisable(false);
+        showStep(4);
+    }
+
+            /** Débloque et affiche l’étape option (index 5) */
+    public void goToRecap() {
+        steps.get(5).setDisable(false);
+        showStep(5);
     }
 
     /** Affiche l’étape `index` (0 = Client, 1 = Catégorie, …) */

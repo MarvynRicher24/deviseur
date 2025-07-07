@@ -2,7 +2,6 @@ package fr.musclegarage.deviseur.ui;
 
 import java.io.File;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,24 +31,25 @@ public class UserPanelMotorController {
     @FXML
     private Button btnNext;
 
-    private final List<Button> motorButtons = new ArrayList<>();
+    private List<Button> motorButtons;
     private List<Motor> motors;
     private Motor selected;
     private double scrollDelta;
 
     @FXML
     public void initialize() {
-        // total initial
+        // Affiche le total actuel (client+catégorie+modèle si définis)
         lblTotal.setText(QuoteSession.getTotalPrice() + "€");
 
         try {
             Connection conn = Database.getConnection();
             MotorDao dao = new MotorDaoJdbc(conn);
-            // filtre par catégorie
+            // Charge tous les moteurs liés à la catégorie courante
             motors = dao.findAll().stream()
                     .filter(m -> m.getCategoryId() == QuoteSession.getCategory().getId())
                     .collect(Collectors.toList());
 
+            motorButtons = new java.util.ArrayList<>();
             scrollDelta = scrollPane.getPrefViewportWidth() / (motors.size() * (150 + 20));
 
             for (Motor m : motors) {
@@ -57,24 +57,30 @@ public class UserPanelMotorController {
                 iv.setFitWidth(150);
                 iv.setFitHeight(100);
                 iv.setPreserveRatio(true);
-                File imgFile = new File("uploads/motors/" + m.getMotorImage());
-                if (imgFile.exists())
-                    iv.setImage(new Image(imgFile.toURI().toString(), true));
-                else
-                    iv.setImage(new Image(getClass().getResource("/logo.png").toString()));
 
+                // CHARGE L’IMAGE DU MOTEUR
+                File imgFile = new File("uploads/motors/" + m.getMotorImage());
+                if (imgFile.exists()) {
+                    iv.setImage(new Image(imgFile.toURI().toString(), true));
+                } else {
+                    // fallback si jamais manquante
+                    iv.setImage(new Image(getClass().getResource("/logo.png").toString()));
+                }
+
+                // Bouton avec nom + prix
                 Button btn = new Button(m.getMotorName() + "\n" + m.getMotorPrice() + "€");
                 btn.setPrefWidth(150);
                 btn.getStyleClass().add("button-primary");
                 btn.setOnAction(e -> selectMotor(m, btn));
 
+                // Ajout à l’HBox
                 VBox box = new VBox(5, iv, btn);
                 box.setStyle("-fx-alignment: center;");
                 container.getChildren().add(box);
                 motorButtons.add(btn);
             }
 
-            // réapplique sélection si déjà en session
+            // Si déjà sélectionné précédemment, réapplique-la
             Motor saved = QuoteSession.getMotor();
             if (saved != null) {
                 for (int i = 0; i < motors.size(); i++) {
@@ -84,17 +90,20 @@ public class UserPanelMotorController {
                     }
                 }
             }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur BD: " + e.getMessage()).showAndWait();
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, "Erreur BD : " + ex.getMessage()).showAndWait();
         }
     }
 
     private void selectMotor(Motor m, Button btn) {
+        // Désélection visuelle
         motorButtons.forEach(b -> b.getStyleClass().remove("button-selected"));
+        // Nouvelle sélection
         selected = m;
         btn.getStyleClass().add("button-selected");
         btnNext.setDisable(false);
 
+        // Sauvegarde et mise à jour du total
         QuoteSession.setMotor(m);
         lblTotal.setText(QuoteSession.getTotalPrice() + "€");
     }
@@ -118,6 +127,6 @@ public class UserPanelMotorController {
     private void onNext() {
         if (selected == null)
             return;
-        App.userBaseController.goToOption(); // prévoir cette méthode
+        App.userBaseController.goToOption(); // ← assure-toi que cette méthode existe
     }
 }
