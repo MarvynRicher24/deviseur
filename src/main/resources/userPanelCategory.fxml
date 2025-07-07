@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/20"
+<BorderPane xmlns="http://javafx.com/javafx/20"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="fr.musclegarage.deviseur.ui.UserPanelCategoryController"
-    alignment="CENTER" spacing="10">
-    <Label text="Écran Catégorie (à implémenter)" styleClass="label-title" />
-</VBox>
+    stylesheets="@styles.css"
+    styleClass="card">
+
+    <!-- Titre seul en haut -->
+    <top>
+        <VBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="0" left="10" />
+            </padding>
+            <Label text="CHOISISSEZ UNE CATÉGORIE" styleClass="label-title" />
+        </VBox>
+    </top>
+
+    <!-- Carousel -->
+    <center>
+        <HBox alignment="CENTER">
+            <Button text="◀" fx:id="btnLeft" onAction="#onScrollLeft" styleClass="button-link" />
+            <ScrollPane fx:id="scrollPane"
+                fitToHeight="true"
+                hbarPolicy="NEVER"
+                vbarPolicy="NEVER"
+                prefViewportWidth="350">
+                <content>
+                    <HBox fx:id="container" spacing="20">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10" />
+                        </padding>
+                    </HBox>
+                </content>
+            </ScrollPane>
+            <Button text="▶" fx:id="btnRight" onAction="#onScrollRight" styleClass="button-link" />
+        </HBox>
+    </center>
+
+    <!-- Précédent & Suivant sous le carousel -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="0" right="10" bottom="10" left="10" />
+            </padding>
+            <Button text="Précédent"
+                onAction="#onPrev"
+                styleClass="button-primary"
+                fx:id="btnPrev" />
+            <Button text="Suivant"
+                onAction="#onNext"
+                styleClass="button-primary"
+                fx:id="btnNext"
+                disable="true" />
+        </HBox>
+    </bottom>
+</BorderPane>

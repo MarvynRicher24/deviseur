@@ -98,3 +98,11 @@
     -fx-underline: true;
     -fx-cursor: hand;
 }
+
+/* userPanelCategory */
+
+/* Bouton sélectionné dans le carousel */
+.button-selected {
+    -fx-background-color: #007ACC;
+    -fx-text-fill: white;
+}

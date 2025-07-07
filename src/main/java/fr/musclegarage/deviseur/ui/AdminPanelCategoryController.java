@@ -1,6 +1,11 @@
 package fr.musclegarage.deviseur.ui;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +15,7 @@ import fr.musclegarage.deviseur.dao.CategoryDaoJdbc;
 import fr.musclegarage.deviseur.model.Category;
 import fr.musclegarage.deviseur.util.Database;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -75,9 +81,21 @@ public class AdminPanelCategoryController {
                     new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
             File f = chooser.showOpenDialog(listContainer.getScene().getWindow());
             if (f != null) {
-                c.setImageFilename(f.getName());
-                btnImport.setText(f.getName());
-                markDirty();
+                try {
+                    // 1) copie le fichier dans uploads/categories
+                    Path targetDir = Paths.get("uploads", "categories");
+                    Files.createDirectories(targetDir);
+                    Path target = targetDir.resolve(f.getName());
+                    Files.copy(f.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+
+                    // 2) stocke le nom seul en mémoire/DAO
+                    c.setImageFilename(f.getName());
+                    btnImport.setText(f.getName());
+
+                    markDirty();
+                } catch (IOException io) {
+                    new Alert(Alert.AlertType.ERROR, "Erreur copie image : " + io.getMessage()).showAndWait();
+                }
             }
         });
 

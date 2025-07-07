@@ -1,5 +1,6 @@
 package fr.musclegarage.deviseur.ui;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,17 +33,26 @@ public class UserPanelBaseController {
         showStep(0);
     }
 
-    /** Déverrouille et passe à l’étape suivante */
-    public void unlockAndGoNext() {
-        if (currentStep < steps.size() - 1) {
-            currentStep++;
-            steps.get(currentStep).setDisable(false);
-            showStep(currentStep);
-        }
+    // Débloque les accès aux autres pages
+    public void goToCategory() {
+        steps.get(1).setDisable(false);
+        showStep(1);
+    }
+
+    /** Débloque et affiche l’étape Modèle (index 2) */
+    public void goToModel() {
+        steps.get(2).setDisable(false);
+        showStep(2);
+    }
+
+    /** Débloque et affiche l’étape Moteur (index 3) */
+    public void goToMotor() {
+        steps.get(3).setDisable(false);
+        showStep(3);
     }
 
     /** Affiche l’étape `index` (0 = Client, 1 = Catégorie, …) */
-    private void showStep(int index) {
+    public void showStep(int index) {
         // Style actif
         for (Label nav : steps) {
             nav.getStyleClass().remove("nav-item-active");
@@ -71,12 +81,15 @@ public class UserPanelBaseController {
 
         if (fxmlPath != null) {
             try {
-                Node view = FXMLLoader.load(getClass().getResource(fxmlPath));
+                // on crée un loader pour attraper l’exception exacte
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+                Node view = loader.load();
                 contentPane.getChildren().setAll(view);
-            } catch (Exception ex) {
+            } catch (IOException ex) {
+                // ici on affiche l’erreur ‘ex’ réel, pas le path de classe
                 new Alert(Alert.AlertType.ERROR,
-                        "Impossible de charger la vue : " + ex.getMessage())
-                        .showAndWait();
+                        "Impossible de charger la vue \"" + fxmlPath + "\" :\n" + ex.getMessage()).showAndWait();
+                ex.printStackTrace();
             }
         }
     }

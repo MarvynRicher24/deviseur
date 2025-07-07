@@ -61,7 +61,7 @@ public class UserPanelClientController {
             }
 
             QuoteSession.setClient(c);
-            App.userBaseController.unlockAndGoNext();
+            App.userBaseController.goToCategory();
         } catch (Exception ex) {
             new Alert(Alert.AlertType.ERROR, "Erreur BD: " + ex.getMessage()).showAndWait();
         }
