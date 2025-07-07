@@ -1,5 +1,8 @@
 package fr.musclegarage.deviseur.ui;
 
+import java.util.Arrays;
+import java.util.List;
+
 import fr.musclegarage.deviseur.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,64 +17,117 @@ public class UserPanelBaseController {
     @FXML
     private Label navClient, navCategory, navModel, navMotor, navOption, navRecap;
 
+    private List<Label> steps;
+    private int currentStep = 0;
+
     @FXML
     public void initialize() {
-        onNavClient(); // charger immédiatement le formulaire client
+        // Ordre d’apparition des onglets
+        steps = Arrays.asList(navClient, navCategory, navModel, navMotor, navOption, navRecap);
+        // on désactive tous sauf le premier
+        for (int i = 1; i < steps.size(); i++) {
+            steps.get(i).setDisable(true);
+        }
+        // on affiche la 1re vue
+        showStep(0);
     }
 
-    private void switchTo(String fxmlPath, Label activeNav) {
-        // Reset styles
-        for (Label nav : new Label[] { navClient, navCategory, navModel, navMotor, navOption, navRecap }) {
+    /** Déverrouille et passe à l’étape suivante */
+    public void unlockAndGoNext() {
+        if (currentStep < steps.size() - 1) {
+            currentStep++;
+            steps.get(currentStep).setDisable(false);
+            showStep(currentStep);
+        }
+    }
+
+    /** Affiche l’étape `index` (0 = Client, 1 = Catégorie, …) */
+    private void showStep(int index) {
+        // Style actif
+        for (Label nav : steps) {
             nav.getStyleClass().remove("nav-item-active");
         }
+        Label activeNav = steps.get(index);
         activeNav.getStyleClass().add("nav-item-active");
 
-        try {
-            Node view = FXMLLoader.load(getClass().getResource(fxmlPath));
-            contentPane.getChildren().setAll(view);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Impossible de charger la vue : " + ex.getMessage())
-                    .showAndWait();
+        // Chargement FXML
+        String fxmlPath;
+        String id = activeNav.getId();
+        if ("navClient".equals(id)) {
+            fxmlPath = "/userPanelClient.fxml";
+        } else if ("navCategory".equals(id)) {
+            fxmlPath = "/userPanelCategory.fxml";
+        } else if ("navModel".equals(id)) {
+            fxmlPath = "/userPanelModel.fxml";
+        } else if ("navMotor".equals(id)) {
+            fxmlPath = "/userPanelMotor.fxml";
+        } else if ("navOption".equals(id)) {
+            fxmlPath = "/userPanelOption.fxml";
+        } else if ("navRecap".equals(id)) {
+            fxmlPath = "/userPanelRecap.fxml";
+        } else {
+            fxmlPath = null;
+        }
+
+        if (fxmlPath != null) {
+            try {
+                Node view = FXMLLoader.load(getClass().getResource(fxmlPath));
+                contentPane.getChildren().setAll(view);
+            } catch (Exception ex) {
+                new Alert(Alert.AlertType.ERROR,
+                        "Impossible de charger la vue : " + ex.getMessage())
+                        .showAndWait();
+            }
         }
     }
 
+    // Ces handlers sont liés dans le FXML, mais n’activent la navigation que si
+    // l’onglet est débloqué
     @FXML
-    void onNavClient() {
-        switchTo("/userPanelClient.fxml", navClient);
+    public void onNavClient() {
+        if (!navClient.isDisable())
+            showStep(0);
     }
 
     @FXML
-    void onNavCategory() {
-        switchTo("/userPanelCategory.fxml", navCategory);
+    public void onNavCategory() {
+        if (!navCategory.isDisable())
+            showStep(1);
     }
 
     @FXML
-    void onNavModel() {
-        switchTo("/userPanelModel.fxml", navModel);
+    public void onNavModel() {
+        if (!navModel.isDisable())
+            showStep(2);
     }
 
     @FXML
-    void onNavMotor() {
-        switchTo("/userPanelMotor.fxml", navMotor);
+    public void onNavMotor() {
+        if (!navMotor.isDisable())
+            showStep(3);
     }
 
     @FXML
-    void onNavOption() {
-        switchTo("/userPanelOption.fxml", navOption);
+    public void onNavOption() {
+        if (!navOption.isDisable())
+            showStep(4);
     }
 
     @FXML
-    void onNavRecap() {
-        switchTo("/userPanelRecap.fxml", navRecap);
+    public void onNavRecap() {
+        if (!navRecap.isDisable())
+            showStep(5);
     }
 
+    /** Retour au menu principal, sans sauvegarde de devis */
     @FXML
-    void onLogout() {
+    public void onGoMenu() {
         try {
-            App.showLogin();
+            App.showMenu();
         } catch (Exception e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,
+                    "Impossible de revenir au menu : " + e.getMessage())
+                    .showAndWait();
         }
     }
 }

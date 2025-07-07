@@ -11,4 +11,6 @@ public interface ClientDao {
     Client findById(int id) throws SQLException;
 
     void insert(Client c) throws SQLException;
+
+    void update(Client c) throws SQLException;
 }

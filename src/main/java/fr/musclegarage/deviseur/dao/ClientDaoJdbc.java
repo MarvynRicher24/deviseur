@@ -64,4 +64,16 @@ public class ClientDaoJdbc implements ClientDao {
             }
         }
     }
+
+    @Override
+    public void update(Client c) throws SQLException {
+        String sql = "UPDATE dbo.Client SET client_name = ?, client_surname = ?, client_address = ? WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, c.getClientName());
+            ps.setString(2, c.getClientSurname());
+            ps.setString(3, c.getClientAddress());
+            ps.setInt(4, c.getId());
+            ps.executeUpdate();
+        }
+    }
 }

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     private static Stage primaryStage;
+    public static fr.musclegarage.deviseur.ui.UserPanelBaseController userBaseController;
 
     // Première page qui s'ouvre
     @Override
@@ -46,6 +47,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Deviseur - Création de devis");
         primaryStage.show();
+        userBaseController = loader.getController(); // <— on garde la ref
     }
 
     // Admin

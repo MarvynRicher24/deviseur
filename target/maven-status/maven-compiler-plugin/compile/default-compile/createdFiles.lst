@@ -18,6 +18,7 @@ fr\musclegarage\deviseur\dao\DevisDaoJdbc.class
 fr\musclegarage\deviseur\dao\MotorDao.class
 fr\musclegarage\deviseur\ui\UserPanelCategoryController.class
 fr\musclegarage\deviseur\ui\AdminPanelBaseController.class
+fr\musclegarage\deviseur\model\QuoteSession.class
 fr\musclegarage\deviseur\model\Model.class
 fr\musclegarage\deviseur\ui\AdminPanelMotorController.class
 fr\musclegarage\deviseur\dao\ClientDaoJdbc.class

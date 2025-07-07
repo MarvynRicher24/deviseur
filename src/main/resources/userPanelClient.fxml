@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<!-- src/main/resources/userPanelClient.fxml -->
 <VBox xmlns="http://javafx.com/javafx/20"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="fr.musclegarage.deviseur.ui.UserPanelClientController"
@@ -28,10 +29,11 @@
         <TextField fx:id="txtAddress" GridPane.rowIndex="2" GridPane.columnIndex="1" />
     </GridPane>
 
+    <!-- Nouveau bouton Suivant -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button fx:id="btnSave"
-            text="Enregistrer"
-            onAction="#onSaveClient"
+        <Button text="Suivant"
+            fx:id="btnNext"
+            onAction="#onNext"
             styleClass="button-primary" />
     </HBox>
 </VBox>

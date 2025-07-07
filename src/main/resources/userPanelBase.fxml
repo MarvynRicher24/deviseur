@@ -17,27 +17,32 @@
 
     <top>
         <VBox>
-            <!-- header identique admin -->
+            <!-- HEADER -->
             <HBox alignment="CENTER_LEFT" spacing="10" styleClass="card">
                 <padding>
                     <Insets top="10" right="10" bottom="10" left="10" />
                 </padding>
-                <Button text="Se déconnecter" onAction="#onLogout" styleClass="button-primary" />
+
+                <!-- Bouton Menu ← remplace Se déconnecter -->
+                <Button text="Menu" onAction="#onGoMenu" styleClass="button-primary" />
                 <Region HBox.hgrow="ALWAYS" />
+
                 <ImageView fitHeight="80" fitWidth="200" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@logo.png" />
                     </image>
                 </ImageView>
+
                 <Region HBox.hgrow="ALWAYS" />
                 <Label text="UTILISATEUR" styleClass="label-title" />
             </HBox>
 
-            <!-- barre de navigation utilisateur -->
+            <!-- NAVBAR (onglets désactivés par défaut sauf Client) -->
             <HBox fx:id="navBar" alignment="CENTER" spacing="20" styleClass="card">
                 <padding>
                     <Insets top="5" right="10" bottom="5" left="10" />
                 </padding>
+
                 <Label fx:id="navClient" text="Client" onMouseClicked="#onNavClient"
                     styleClass="nav-item" />
                 <Label fx:id="navCategory" text="Catégorie" onMouseClicked="#onNavCategory"
