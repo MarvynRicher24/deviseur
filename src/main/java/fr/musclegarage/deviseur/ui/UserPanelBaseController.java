@@ -51,6 +51,12 @@ public class UserPanelBaseController {
         showStep(3);
     }
 
+        /** Débloque et affiche l’étape option (index 4) */
+    public void goToOption() {
+        steps.get(3).setDisable(false);
+        showStep(3);
+    }
+
     /** Affiche l’étape `index` (0 = Client, 1 = Catégorie, …) */
     public void showStep(int index) {
         // Style actif

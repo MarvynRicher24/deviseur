@@ -1,6 +1,11 @@
 package fr.musclegarage.deviseur.ui;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +18,7 @@ import fr.musclegarage.deviseur.model.Category;
 import fr.musclegarage.deviseur.model.Model;
 import fr.musclegarage.deviseur.util.Database;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -110,9 +116,20 @@ public class AdminPanelModelController {
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
             File f = chooser.showOpenDialog(listContainer.getScene().getWindow());
             if (f != null) {
-                m.setModelImage(f.getName());
-                btnImport.setText(f.getName());
-                markDirty();
+                try {
+                    // 1) copie dans uploads/models
+                    Path targetDir = Paths.get("uploads/models");
+                    Files.createDirectories(targetDir);
+                    Path target = targetDir.resolve(f.getName());
+                    Files.copy(f.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+
+                    // 2) stocke juste le nom en DB
+                    m.setModelImage(f.getName());
+                    btnImport.setText(f.getName());
+                    markDirty();
+                } catch (IOException io) {
+                    new Alert(Alert.AlertType.ERROR, "Erreur copie image : " + io.getMessage()).showAndWait();
+                }
             }
         });
 

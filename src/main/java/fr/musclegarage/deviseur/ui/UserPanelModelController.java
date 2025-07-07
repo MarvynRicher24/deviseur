@@ -59,8 +59,11 @@ public class UserPanelModelController {
                 iv.setFitHeight(100);
                 iv.setPreserveRatio(true);
                 File imgFile = new File("uploads/models/" + m.getModelImage());
-                if (imgFile.exists())
+                if (imgFile.exists()) {
                     iv.setImage(new Image(imgFile.toURI().toString(), true));
+                } else {
+                    iv.setImage(new Image(getClass().getResource("/logo.png").toString()));
+                }
 
                 // Bouton
                 Button btn = new Button(m.getModelName() + "\n" + m.getModelPrice() + "€");
