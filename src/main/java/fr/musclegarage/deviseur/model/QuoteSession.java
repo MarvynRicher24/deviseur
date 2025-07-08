@@ -4,12 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class QuoteSession {
+    private static User currentUser;
     private static Client currentClient;
     private static Category currentCategory;
     private static Model currentModel;
     private static Motor currentMotor;
     private static Map<Integer, OptionChoice> choices = new HashMap<>();
 
+    // User
+    public static void setUser(User u) {
+        currentUser = u;
+    }
+
+    public static User getUser() {
+        return currentUser;
+    }
+
+    // Client
     public static void setClient(Client client) {
         currentClient = client;
     }
@@ -18,6 +29,7 @@ public class QuoteSession {
         return currentClient;
     }
 
+    // Catégorie
     public static void setCategory(Category category) {
         currentCategory = category;
     }
@@ -26,6 +38,7 @@ public class QuoteSession {
         return currentCategory;
     }
 
+    // Modèle
     public static void setModel(Model model) {
         currentModel = model;
     }
@@ -34,6 +47,7 @@ public class QuoteSession {
         return currentModel;
     }
 
+    // Moteur
     public static void setMotor(Motor motor) {
         currentMotor = motor;
     }

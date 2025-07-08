@@ -1,11 +1,14 @@
 package fr.musclegarage.deviseur.ui;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import fr.musclegarage.deviseur.App;
 import fr.musclegarage.deviseur.dao.UserDao;
 import fr.musclegarage.deviseur.dao.UserDaoJdbc;
+import fr.musclegarage.deviseur.model.QuoteSession;
+import fr.musclegarage.deviseur.model.User;
 import fr.musclegarage.deviseur.util.Database;
 import fr.musclegarage.deviseur.util.PasswordUtils;
 import javafx.fxml.FXML;
@@ -18,7 +21,6 @@ public class LoginController {
     private TextField txtUsername;
     @FXML
     private PasswordField txtPassword;
-
     private UserDao userDao;
 
     @FXML
@@ -27,35 +29,51 @@ public class LoginController {
             Connection conn = Database.getConnection();
             userDao = new UserDaoJdbc(conn);
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "BD inaccessible: " + e.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "BD inaccessible : " + e.getMessage()).showAndWait();
         }
     }
 
     @FXML
     public void onLogin() {
-        String u = txtUsername.getText().trim();
-        String p = txtPassword.getText();
-        if (u.isEmpty() || p.isEmpty()) {
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText();
+        if (username.isEmpty() || password.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Tous les champs sont requis.").showAndWait();
             return;
         }
+
         try {
-            String hash = PasswordUtils.hash(p);
-            if (!userDao.checkCredentials(u, hash)) {
+            String hash = PasswordUtils.hash(password);
+            if (!userDao.checkCredentials(username, hash)) {
                 new Alert(Alert.AlertType.ERROR, "Identifiants incorrects.").showAndWait();
                 return;
             }
-            if (userDao.isAdmin(u)) {
+
+            // Récupérer l'utilisateur complet
+            Connection conn = Database.getConnection();
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT id, username, password_hash, email, created_at FROM dbo.Users WHERE username = ?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User u = new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password_hash"),
+                        rs.getString("email"),
+                        rs.getTimestamp("created_at").toLocalDateTime());
+                QuoteSession.setUser(u);
+            }
+
+            // Navigation
+            if (userDao.isAdmin(username)) {
                 App.showAdminPanelOne();
             } else {
                 App.showMenu();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur BD : " + e.getMessage()).showAndWait();
+
         } catch (Exception e) {
-            e.printStackTrace(); // pour voir la trace complète dans la console
-            new Alert(Alert.AlertType.ERROR, "Erreur interne : " + e.getClass().getSimpleName()
-                    + " – " + e.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Erreur : " + e.getMessage()).showAndWait();
         }
     }
 
@@ -64,6 +82,8 @@ public class LoginController {
         try {
             App.showRegistration();
         } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Impossible d’ouvrir l’inscription : " + e.getMessage())
+                    .showAndWait();
         }
     }
 }
