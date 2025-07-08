@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import fr.musclegarage.deviseur.App;
 import fr.musclegarage.deviseur.dao.DevisDao;
 import fr.musclegarage.deviseur.dao.DevisDaoJdbc;
+import fr.musclegarage.deviseur.dao.DevisOptionChoiceLinkDao;
+import fr.musclegarage.deviseur.dao.DevisOptionChoiceLinkDaoJdbc;
 import fr.musclegarage.deviseur.dao.OptionDao;
 import fr.musclegarage.deviseur.dao.OptionDaoJdbc;
 import fr.musclegarage.deviseur.model.Devis;
@@ -46,8 +48,7 @@ public class UserPanelRecapController {
             modelPane.getChildren().add(ivBase);
 
             // 2) Superposition des overlays d’options
-            Map<Integer, OptionChoice> choices = QuoteSession.getAllChoices();
-            for (OptionChoice oc : choices.values()) {
+            for (OptionChoice oc : QuoteSession.getAllChoices().values()) {
                 File f = new File("uploads/options/" + oc.getOptionChoiceImage());
                 if (f.exists()) {
                     ImageView iv = new ImageView(new Image(f.toURI().toString(), true));
@@ -78,11 +79,10 @@ public class UserPanelRecapController {
                             + " – " + QuoteSession.getMotor().getMotorPrice() + "€"));
 
             // Options + choix
-            for (OptionChoice oc : choices.values()) {
-                String optName = optionNames.get(oc.getOptionId());
-                detailsContainer.getChildren().add(new Label("Option : " + optName));
+            for (OptionChoice oc : QuoteSession.getAllChoices().values()) {
+                String optName = oc.getOptionChoiceName();
                 detailsContainer.getChildren().add(new Label(
-                        "  Choix : " + oc.getOptionChoiceName()
+                        "Option sélectionnée : " + optName
                                 + " – " + oc.getOptionChoicePrice() + "€"));
             }
 
@@ -91,8 +91,6 @@ public class UserPanelRecapController {
             total.getStyleClass().add("label-title");
             detailsContainer.getChildren().add(total);
 
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur BD : " + e.getMessage()).showAndWait();
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Erreur inattendue : " + e.getMessage()).showAndWait();
         }
@@ -108,15 +106,30 @@ public class UserPanelRecapController {
         try {
             Connection conn = Database.getConnection();
             DevisDao dao = new DevisDaoJdbc(conn);
+            DevisOptionChoiceLinkDao linkDao = new DevisOptionChoiceLinkDaoJdbc(conn);
+
+            // 1) Création ou MAJ du devis
             Devis d = new Devis();
             d.setUserId(QuoteSession.getUser().getId());
             d.setClientId(QuoteSession.getClient().getId());
             d.setDateCreated(LocalDateTime.now());
             d.setTotalPrice(QuoteSession.getTotalPrice());
-            dao.insert(d);
+
+            // Si on est en édition (id != 0), on supprime les anciens liens
+            if (d.getId() != 0) {
+                linkDao.deleteByDevisId(d.getId());
+            }
+
+            dao.insert(d); // génère l'id si nouveau
+            int devisId = d.getId();
+
+            // 2) Insertion des choix en base
+            for (OptionChoice oc : QuoteSession.getAllChoices().values()) {
+                linkDao.insertLink(devisId, oc.getId());
+            }
 
             new Alert(Alert.AlertType.INFORMATION,
-                    "Devis enregistré (ID : " + d.getId() + ").").showAndWait();
+                    "Devis enregistré (ID : " + devisId + ").").showAndWait();
             App.userBaseController.onGoMenu();
 
         } catch (SQLException e) {

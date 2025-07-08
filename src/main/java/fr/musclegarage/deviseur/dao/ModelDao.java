@@ -8,6 +8,8 @@ import fr.musclegarage.deviseur.model.Model;
 public interface ModelDao {
     List<Model> findAll() throws SQLException;
 
+    Model findById(int id) throws SQLException;
+
     void insert(Model m) throws SQLException;
 
     void update(Model m) throws SQLException;

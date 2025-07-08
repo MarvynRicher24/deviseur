@@ -6,7 +6,9 @@ import java.util.List;
 import fr.musclegarage.deviseur.model.Devis;
 
 public interface DevisDao {
-    List findAll() throws SQLException;
+    List<Devis> findAll() throws SQLException;
 
     void insert(Devis d) throws SQLException;
+
+    void delete(int id) throws SQLException;
 }

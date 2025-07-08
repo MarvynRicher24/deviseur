@@ -8,6 +8,8 @@ import fr.musclegarage.deviseur.model.Motor;
 public interface MotorDao {
     List<Motor> findAll() throws SQLException;
 
+    Motor findById(int id) throws SQLException;
+
     void insert(Motor m) throws SQLException;
 
     void update(Motor m) throws SQLException;

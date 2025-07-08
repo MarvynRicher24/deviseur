@@ -37,6 +37,28 @@ public class MotorDaoJdbc implements MotorDao {
     }
 
     @Override
+    public Motor findById(int id) throws SQLException {
+        String sql = "SELECT id, category_id, motor_name, motor_price, ch_motor, torque_motor, motor_image " +
+                "FROM dbo.Motor WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Motor(
+                            rs.getInt("id"),
+                            rs.getInt("category_id"),
+                            rs.getString("motor_name"),
+                            rs.getInt("motor_price"),
+                            rs.getInt("ch_motor"),
+                            rs.getInt("torque_motor"),
+                            rs.getString("motor_image"));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void insert(Motor m) throws SQLException {
         String sql = "INSERT INTO dbo.Motor (category_id, motor_name, motor_price, ch_motor, torque_motor, motor_image) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

@@ -34,6 +34,23 @@ public class CategoryDaoJdbc implements CategoryDao {
     }
 
     @Override
+    public Category findById(int id) throws SQLException {
+        String sql = "SELECT id, category_name, image_filename FROM dbo.Category WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Category(
+                            rs.getInt("id"),
+                            rs.getString("category_name"),
+                            rs.getString("image_filename"));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void insert(Category c) throws SQLException {
         String sql = "INSERT INTO dbo.Category (category_name, image_filename) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

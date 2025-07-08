@@ -9,7 +9,7 @@ public class MenuController {
     @FXML
     public void onCreateQuote() {
         try {
-            App.showUserPanel(); // ← nouvelle navigation
+            App.showUserPanel();
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR,
                     "Impossible d’ouvrir le créateur de devis : " + e.getMessage())
@@ -19,13 +19,19 @@ public class MenuController {
 
     @FXML
     public void onListQuotes() {
-        System.out.println("→ Mes devis");
+        try {
+            App.showUserDevis();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Impossible d’ouvrir Mes devis : " + e.getMessage())
+                    .showAndWait();
+        }
     }
 
     @FXML
     public void onLogout() {
         try {
-            App.showLogin(); // ou App.showLogin() selon votre flux
+            App.showLogin();
         } catch (Exception e) {
             new javafx.scene.control.Alert(
                     javafx.scene.control.Alert.AlertType.ERROR,

@@ -5,6 +5,10 @@ C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ClientDaoJdbc.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisDao.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisDaoJdbc.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisOptionChoiceDao.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisOptionChoiceDaoJdbc.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisOptionChoiceLinkDao.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\DevisOptionChoiceLinkDaoJdbc.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ModelDao.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\ModelDaoJdbc.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\dao\MotorDao.java
@@ -36,6 +40,7 @@ C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelBaseController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelCategoryController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelClientController.java
+C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelDevisController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelModelController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelMotorController.java
 C:\Users\Slimi\Documents\BACHELOR\PROJET\Deviseur\projet\deviseur\src\main\java\fr\musclegarage\deviseur\ui\UserPanelOptionController.java

@@ -64,6 +64,14 @@ public class App extends Application {
         primaryStage.setMaximized(true);
     }
 
+    public static void showUserDevis() throws Exception {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/userPanelDevis.fxml"));
+        Scene scene = new Scene(loader.load());
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Deviseur - Mes devis");
+        primaryStage.show();
+    }
+
     public static void main(String[] args) {
         launch();
     }

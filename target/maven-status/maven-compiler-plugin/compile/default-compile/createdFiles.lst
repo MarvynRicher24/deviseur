@@ -1,11 +1,16 @@
 fr\musclegarage\deviseur\ui\UserPanelClientController.class
+fr\musclegarage\deviseur\dao\DevisOptionChoiceLinkDao.class
 fr\musclegarage\deviseur\util\Database.class
 fr\musclegarage\deviseur\dao\DevisDao.class
 fr\musclegarage\deviseur\ui\UserPanelRecapController.class
 fr\musclegarage\deviseur\model\Option.class
+fr\musclegarage\deviseur\dao\DevisOptionChoiceDao.class
 fr\musclegarage\deviseur\dao\UserDaoJdbc.class
+fr\musclegarage\deviseur\ui\UserPanelDevisController.class
+fr\musclegarage\deviseur\dao\DevisOptionChoiceLinkDaoJdbc.class
 fr\musclegarage\deviseur\dao\OptionDao.class
 fr\musclegarage\deviseur\model\User.class
+fr\musclegarage\deviseur\ui\UserPanelDevisController$1.class
 fr\musclegarage\deviseur\dao\OptionChoiceDaoJdbc.class
 fr\musclegarage\deviseur\model\Category.class
 fr\musclegarage\deviseur\model\Devis.class
@@ -32,6 +37,7 @@ fr\musclegarage\deviseur\dao\OptionDaoJdbc.class
 fr\musclegarage\deviseur\ui\UserPanelModelController.class
 fr\musclegarage\deviseur\ui\AdminPanelModelController.class
 fr\musclegarage\deviseur\ui\UserPanelOptionController.class
+fr\musclegarage\deviseur\dao\DevisOptionChoiceDaoJdbc.class
 fr\musclegarage\deviseur\util\PasswordUtils.class
 fr\musclegarage\deviseur\dao\OptionChoiceDao.class
 fr\musclegarage\deviseur\model\Client.class

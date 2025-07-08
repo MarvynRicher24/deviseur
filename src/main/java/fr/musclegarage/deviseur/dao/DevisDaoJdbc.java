@@ -51,4 +51,14 @@ public class DevisDaoJdbc implements DevisDao {
             }
         }
     }
+
+    @Override
+    public void delete(int id) throws SQLException {
+        String sql = "DELETE FROM dbo.Devis WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+
 }

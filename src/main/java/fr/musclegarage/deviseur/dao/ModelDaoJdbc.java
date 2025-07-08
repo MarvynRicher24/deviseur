@@ -35,6 +35,25 @@ public class ModelDaoJdbc implements ModelDao {
     }
 
     @Override
+    public Model findById(int id) throws SQLException {
+        String sql = "SELECT id, category_id, model_name, model_price, model_image FROM dbo.Model WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Model(
+                            rs.getInt("id"),
+                            rs.getInt("category_id"),
+                            rs.getString("model_name"),
+                            rs.getInt("model_price"),
+                            rs.getString("model_image"));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void insert(Model m) throws SQLException {
         String sql = "INSERT INTO dbo.Model (category_id, model_name, model_price, model_image) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
