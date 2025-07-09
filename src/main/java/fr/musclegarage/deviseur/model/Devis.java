@@ -6,21 +6,43 @@ public class Devis {
     private int id;
     private int userId;
     private int clientId;
+    private Integer modelId; // ← nouveau
+    private Integer motorId; // ← nouveau
     private LocalDateTime dateCreated;
     private Integer totalPrice;
 
     public Devis() {
     }
 
-    public Devis(int id, int userId, int clientId, LocalDateTime dateCreated, Integer totalPrice) {
+    public Devis(int id, int userId, int clientId,
+            Integer modelId, Integer motorId,
+            LocalDateTime dateCreated, Integer totalPrice) {
         this.id = id;
         this.userId = userId;
         this.clientId = clientId;
+        this.modelId = modelId;
+        this.motorId = motorId;
         this.dateCreated = dateCreated;
         this.totalPrice = totalPrice;
     }
 
     // Getters & Setters
+    public Integer getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(Integer modelId) {
+        this.modelId = modelId;
+    }
+
+    public Integer getMotorId() {
+        return motorId;
+    }
+
+    public void setMotorId(Integer motorId) {
+        this.motorId = motorId;
+    }
+
     public int getId() {
         return id;
     }

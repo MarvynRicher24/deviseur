@@ -10,6 +10,7 @@ public class QuoteSession {
     private static Model currentModel;
     private static Motor currentMotor;
     private static Map<Integer, OptionChoice> choices = new HashMap<>();
+    private static Integer currentDevisId;
 
     // User
     public static void setUser(User u) {
@@ -68,6 +69,14 @@ public class QuoteSession {
         return choices;
     }
 
+    public static void setDevisId(Integer id) {
+        currentDevisId = id;
+    }
+
+    public static Integer getDevisId() {
+        return currentDevisId;
+    }
+
     /** Calcule le total courant (ici : prix du modèle, à étendre plus tard) */
     public static int getTotalPrice() {
         int total = 0;
@@ -79,5 +88,15 @@ public class QuoteSession {
             total += oc.getOptionChoicePrice();
         }
         return total;
+    }
+
+    public static void reset() {
+        currentClient = null;
+        currentCategory = null;
+        currentModel = null;
+        currentMotor = null;
+        choices.clear();
+        currentDevisId = null;
+        // on ne touche pas à currentUser (utilisateur reste connecté)
     }
 }

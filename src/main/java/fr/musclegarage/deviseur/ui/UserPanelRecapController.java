@@ -2,7 +2,6 @@ package fr.musclegarage.deviseur.ui;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -66,17 +65,26 @@ public class UserPanelRecapController {
 
             // 4) Construire la liste des détails
             detailsContainer.getChildren().clear();
+
             detailsContainer.getChildren().add(new Label(
                     "Client : " + QuoteSession.getClient().getClientName()
                             + " " + QuoteSession.getClient().getClientSurname()));
+
             detailsContainer.getChildren().add(new Label(
                     "Catégorie : " + QuoteSession.getCategory().getCategoryName()));
+
             detailsContainer.getChildren().add(new Label(
                     "Modèle : " + QuoteSession.getModel().getModelName()
                             + " – " + QuoteSession.getModel().getModelPrice() + "€"));
-            detailsContainer.getChildren().add(new Label(
-                    "Moteur : " + QuoteSession.getMotor().getMotorName()
-                            + " – " + QuoteSession.getMotor().getMotorPrice() + "€"));
+
+            if (QuoteSession.getMotor() != null) {
+                detailsContainer.getChildren().add(new Label(
+                        "Moteur : " + QuoteSession.getMotor().getMotorName()
+                                + " – " + QuoteSession.getMotor().getMotorPrice() + "€"));
+            } else {
+                detailsContainer.getChildren().add(new Label(
+                        "Moteur : [non défini]"));
+            }
 
             // Options + choix
             for (OptionChoice oc : QuoteSession.getAllChoices().values()) {
@@ -108,34 +116,39 @@ public class UserPanelRecapController {
             DevisDao dao = new DevisDaoJdbc(conn);
             DevisOptionChoiceLinkDao linkDao = new DevisOptionChoiceLinkDaoJdbc(conn);
 
-            // 1) Création ou MAJ du devis
+            // Construire l'objet Devis à enregistrer
             Devis d = new Devis();
+            Integer existingId = QuoteSession.getDevisId();
+            if (existingId != null) {
+                d.setId(existingId);
+            }
             d.setUserId(QuoteSession.getUser().getId());
             d.setClientId(QuoteSession.getClient().getId());
+            d.setModelId(QuoteSession.getModel().getId());
+            d.setMotorId(QuoteSession.getMotor().getId());
             d.setDateCreated(LocalDateTime.now());
             d.setTotalPrice(QuoteSession.getTotalPrice());
 
-            // Si on est en édition (id != 0), on supprime les anciens liens
-            if (d.getId() != 0) {
-                linkDao.deleteByDevisId(d.getId());
+            // Si on édite, on supprime d'abord les anciens liens
+            if (existingId != null) {
+                linkDao.deleteByDevisId(existingId);
+                dao.update(d);
+            } else {
+                dao.insert(d);
+                QuoteSession.setDevisId(d.getId());
             }
 
-            dao.insert(d); // génère l'id si nouveau
-            int devisId = d.getId();
-
-            // 2) Insertion des choix en base
+            // Puis on réinsère tous les choix
             for (OptionChoice oc : QuoteSession.getAllChoices().values()) {
-                linkDao.insertLink(devisId, oc.getId());
+                linkDao.insertLink(d.getId(), oc.getId());
             }
 
             new Alert(Alert.AlertType.INFORMATION,
-                    "Devis enregistré (ID : " + devisId + ").").showAndWait();
+                    "Devis enregistré (ID : " + d.getId() + ").").showAndWait();
             App.userBaseController.onGoMenu();
 
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur BD : " + e.getMessage()).showAndWait();
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur inattendue : " + e.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Erreur : " + e.getMessage()).showAndWait();
         }
     }
 }

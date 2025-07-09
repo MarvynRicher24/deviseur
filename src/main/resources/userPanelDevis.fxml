@@ -55,9 +55,9 @@
 
             <!-- Boutons d'action -->
             <HBox spacing="10" alignment="CENTER_RIGHT">
-                <Button text="Modifier" fx:id="btnEdit" onAction="#onEdit"
-                    styleClass="button-primary" disable="true" />
                 <Button text="Supprimer" fx:id="btnDelete" onAction="#onDelete"
+                    styleClass="button-primary" disable="true" />
+                <Button text="Modifier" fx:id="btnEdit" onAction="#onEdit"
                     styleClass="button-primary" disable="true" />
             </HBox>
         </VBox>

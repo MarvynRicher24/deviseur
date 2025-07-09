@@ -156,36 +156,57 @@ public class UserPanelDevisController {
             return;
 
         try {
-            // --- Client
-            Client c = clientDao.findById(sel.getClientId());
+            // 1) Relire le devis complet
+            Devis full = devisDao.findById(sel.getId());
+            if (full == null) {
+                new Alert(Alert.AlertType.ERROR, "Devis introuvable en base.").showAndWait();
+                return;
+            }
+
+            // 2) Charger le client
+            Client c = clientDao.findById(full.getClientId());
             QuoteSession.setClient(c);
 
-            // --- Options enregistrées
-            List<OptionChoice> choices = docDao.findByDevisId(sel.getId());
-            // S'il y a au moins un choix, on déduit modèle et catégorie
-            if (!choices.isEmpty()) {
-                OptionChoice first = choices.get(0);
-                Model m = modelDao.findById(first.getModelId());
-                QuoteSession.setModel(m);
+            // 3) Charger les choix d'options
+            List<OptionChoice> choices = docDao.findByDevisId(full.getId());
+            QuoteSession.getAllChoices().clear();
+            for (OptionChoice oc : choices) {
+                QuoteSession.setChoice(oc.getOptionId(), oc);
+            }
 
+            // 4) Dériver ou prendre modelId
+            Integer mid = full.getModelId();
+            if (mid == null && !choices.isEmpty()) {
+                mid = choices.get(0).getModelId();
+            }
+            if (mid != null) {
+                Model m = modelDao.findById(mid);
+                QuoteSession.setModel(m);
                 Category cat = categoryDao.findById(m.getCategoryId());
                 QuoteSession.setCategory(cat);
             }
 
-            // --- Moteur (si tu avais stocké motor_id dans Devis, sinon à adapter)
-            // Motor motor = motorDao.findById(sel.getMotorId());
-            // QuoteSession.setMotor(motor);
+            // 5) Dériver ou prendre motorId
+            Integer motId = full.getMotorId();
+            if (motId != null) {
+                Motor mot = motorDao.findById(motId);
+                QuoteSession.setMotor(mot);
+            }
 
-            // --- Recharger chaque option
-            choices.forEach(oc -> QuoteSession.setChoice(oc.getOptionId(), oc));
+            // 6) On garde l’ID de devis pour update
+            QuoteSession.setDevisId(full.getId());
 
-            // --- Ouvre l'interface et va au récapitulatif
+            // 7) Ouvrir l’interface et débloquer les étapes
             App.showUserPanel();
+            App.userBaseController.goToCategory();
+            App.userBaseController.goToModel();
+            App.userBaseController.goToMotor();
+            App.userBaseController.goToOption();
             App.userBaseController.goToRecap();
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR,
-                    "Impossible de modifier le devis : " + e.getMessage()).showAndWait();
+                    "Erreur inattendue : " + e.getMessage()).showAndWait();
         }
     }
 

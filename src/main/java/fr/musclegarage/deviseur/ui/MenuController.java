@@ -1,6 +1,7 @@
 package fr.musclegarage.deviseur.ui;
 
 import fr.musclegarage.deviseur.App;
+import fr.musclegarage.deviseur.model.QuoteSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
@@ -9,6 +10,10 @@ public class MenuController {
     @FXML
     public void onCreateQuote() {
         try {
+            // Réinitialiser tout le devis en session
+            QuoteSession.reset();
+
+            // Ouvrir l’interface de création
             App.showUserPanel();
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR,
