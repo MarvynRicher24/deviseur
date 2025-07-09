@@ -1,10 +1,21 @@
 package fr.musclegarage.deviseur.ui;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.imageio.ImageIO;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import fr.musclegarage.deviseur.App;
 import fr.musclegarage.deviseur.dao.DevisDao;
@@ -18,19 +29,25 @@ import fr.musclegarage.deviseur.model.Option;
 import fr.musclegarage.deviseur.model.OptionChoice;
 import fr.musclegarage.deviseur.model.QuoteSession;
 import fr.musclegarage.deviseur.util.Database;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 public class UserPanelRecapController {
     @FXML
     private StackPane modelPane;
     @FXML
     private VBox detailsContainer;
+    @FXML
+    private VBox recapPane;
 
     @FXML
     public void initialize() {
@@ -59,8 +76,8 @@ public class UserPanelRecapController {
             }
 
             // 3) Préparer map optionId→nom d’option
-            OptionDao optDao = new OptionDaoJdbc(conn);
-            Map<Integer, String> optionNames = optDao.findAll().stream()
+            OptionDao optionDao = new OptionDaoJdbc(conn);
+            Map<Integer, String> optionNames = optionDao.findAll().stream()
                     .collect(Collectors.toMap(Option::getId, Option::getOptionName));
 
             // 4) Construire la liste des détails
@@ -87,14 +104,20 @@ public class UserPanelRecapController {
             }
 
             // Options + choix
+            detailsContainer.getChildren().add(
+                    new Label(QuoteSession.getAllChoices().size() > 1
+                            ? "Options sélectionnées :"
+                            : "Option sélectionnée :"));
+
             for (OptionChoice oc : QuoteSession.getAllChoices().values()) {
-                String optName = oc.getOptionChoiceName();
-                detailsContainer.getChildren().add(new Label(
-                        "Option sélectionnée : " + optName
-                                + " – " + oc.getOptionChoicePrice() + "€"));
+                String optName = optionNames.getOrDefault(oc.getOptionId(), "[Option inconnue]");
+                String line = optName + " – "
+                        + oc.getOptionChoiceName() + " – "
+                        + oc.getOptionChoicePrice() + "€";
+                detailsContainer.getChildren().add(new Label(line));
             }
 
-            // 5) TOTAL en bas
+            // Puis TOTAL
             Label total = new Label("TOTAL : " + QuoteSession.getTotalPrice() + "€");
             total.getStyleClass().add("label-title");
             detailsContainer.getChildren().add(total);
@@ -151,4 +174,54 @@ public class UserPanelRecapController {
             new Alert(Alert.AlertType.ERROR, "Erreur : " + e.getMessage()).showAndWait();
         }
     }
+
+    @FXML
+    private void onExportPdf() {
+        try {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Enregistrer le récapitulatif en PDF");
+            chooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File target = chooser.showSaveDialog(recapPane.getScene().getWindow());
+            if (target == null)
+                return;
+            if (!target.getName().toLowerCase().endsWith(".pdf")) {
+                target = new File(target.getAbsolutePath() + ".pdf");
+            }
+
+            // Snapshot uniquement de recapPane
+            WritableImage fxImage = recapPane.snapshot(new SnapshotParameters(), null);
+            BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+
+            try (PDDocument doc = new PDDocument()) {
+                PDPage page = new PDPage(new PDRectangle(bImage.getWidth(), bImage.getHeight()));
+                doc.addPage(page);
+
+                PDImageXObject pdImage = PDImageXObject.createFromByteArray(
+                        doc, toByteArray(bImage), "recap");
+                try (PDPageContentStream cs = new PDPageContentStream(doc, page)) {
+                    cs.drawImage(pdImage, 0, 0,
+                            page.getMediaBox().getWidth(),
+                            page.getMediaBox().getHeight());
+                }
+                doc.save(target);
+            }
+
+            new Alert(Alert.AlertType.INFORMATION,
+                    "PDF généré : " + target.getAbsolutePath()).showAndWait();
+
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Erreur création PDF : " + ex.getMessage()).showAndWait();
+        }
+    }
+
+    /** Convertit BufferedImage en tableau de bytes PNG */
+    private byte[] toByteArray(BufferedImage img) throws IOException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageIO.write(img, "PNG", baos);
+            return baos.toByteArray();
+        }
+    }
+
 }

@@ -17,11 +17,14 @@
         <version>0.0.8</version>
         <configuration>
           <mainClass>fr.musclegarage.deviseur.App</mainClass>
+          <options>
+            <option>--add-modules=javafx.swing</option>
+          </options>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -42,6 +45,16 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
+      <version>20.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>2.0.27</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-swing</artifactId>
       <version>20.0.2</version>
     </dependency>
   </dependencies>
