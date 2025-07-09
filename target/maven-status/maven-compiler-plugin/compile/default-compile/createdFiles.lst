@@ -33,11 +33,13 @@ fr\musclegarage\deviseur\ui\MenuController.class
 fr\musclegarage\deviseur\dao\MotorDaoJdbc.class
 fr\musclegarage\deviseur\dao\CategoryDao.class
 fr\musclegarage\deviseur\dao\UserDao.class
+fr\musclegarage\deviseur\util\EmailUtils.class
 fr\musclegarage\deviseur\dao\OptionDaoJdbc.class
 fr\musclegarage\deviseur\ui\UserPanelModelController.class
 fr\musclegarage\deviseur\ui\AdminPanelModelController.class
 fr\musclegarage\deviseur\ui\UserPanelOptionController.class
 fr\musclegarage\deviseur\dao\DevisOptionChoiceDaoJdbc.class
+fr\musclegarage\deviseur\util\EmailUtils$1.class
 fr\musclegarage\deviseur\util\PasswordUtils.class
 fr\musclegarage\deviseur\dao\OptionChoiceDao.class
 fr\musclegarage\deviseur\model\Client.class

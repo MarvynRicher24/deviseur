@@ -5,16 +5,18 @@ public class Client {
     private int id;
     private String clientName;
     private String clientSurname;
+    private String clientEmail;
     private String clientAddress;
 
     public Client() {
     }
 
-    public Client(int id, String clientName, String clientSurname, String clientAddress) {
+    public Client(int id, String clientName, String clientSurname, String clientAddress, String clientEmail) {
         this.id = id;
         this.clientName = clientName;
         this.clientSurname = clientSurname;
         this.clientAddress = clientAddress;
+        this.clientEmail = clientEmail;
     }
 
     // Getters & Setters
@@ -53,5 +55,13 @@ public class Client {
     @Override
     public String toString() {
         return clientName + " " + clientSurname;
+    }
+
+    public String getClientEmail() {
+        return clientEmail;
+    }
+
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
     }
 }

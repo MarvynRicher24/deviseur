@@ -29,6 +29,7 @@ import fr.musclegarage.deviseur.model.Option;
 import fr.musclegarage.deviseur.model.OptionChoice;
 import fr.musclegarage.deviseur.model.QuoteSession;
 import fr.musclegarage.deviseur.util.Database;
+import fr.musclegarage.deviseur.util.EmailUtils;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -221,6 +222,44 @@ public class UserPanelRecapController {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             ImageIO.write(img, "PNG", baos);
             return baos.toByteArray();
+        }
+    }
+
+    @FXML
+    private void onMail() {
+        try {
+            // 1) Générer le PDF en mémoire (comme dans onExportPdf)
+            WritableImage fxImage = recapPane.snapshot(new SnapshotParameters(), null);
+            BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+            byte[] pdfBytes;
+            try (PDDocument doc = new PDDocument()) {
+                PDPage page = new PDPage(new PDRectangle(bImage.getWidth(), bImage.getHeight()));
+                doc.addPage(page);
+                PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, toByteArray(bImage), "recap");
+                try (PDPageContentStream cs = new PDPageContentStream(doc, page)) {
+                    cs.drawImage(pdImage, 0, 0,
+                            page.getMediaBox().getWidth(),
+                            page.getMediaBox().getHeight());
+                }
+                try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                    doc.save(baos);
+                    pdfBytes = baos.toByteArray();
+                }
+            }
+
+            // 2) On récupère l'email du client
+            String clientEmail = QuoteSession.getClient().getClientEmail();
+
+            // 3) Envoi
+            String subject = "Votre devis n°" + QuoteSession.getDevisId();
+            String body = "Bonjour " + QuoteSession.getClient().getClientName()
+                    + ",\n\nVeuillez trouver ci-joint votre récapitulatif de devis.\n\nCordialement.";
+            EmailUtils.sendMailWithAttachment(clientEmail, subject, body, pdfBytes,
+                    "devis-" + QuoteSession.getDevisId() + ".pdf");
+
+            new Alert(Alert.AlertType.INFORMATION, "E-mail envoyé à : " + clientEmail).showAndWait();
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, "Erreur envoi e‑mail : " + ex.getMessage()).showAndWait();
         }
     }
 

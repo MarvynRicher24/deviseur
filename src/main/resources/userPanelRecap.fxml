@@ -52,6 +52,7 @@
                 <Insets top="0" right="10" bottom="10" left="10" />
             </padding>
             <Button text="Précédent" onAction="#onPrev" styleClass="button-primary" />
+            <Button text="Mail" onAction="#onMail" styleClass="button-primary" />
             <Button text="PDF" onAction="#onExportPdf" styleClass="button-primary" />
             <Button text="Enregistrer" onAction="#onSave" styleClass="button-primary" />
         </HBox>

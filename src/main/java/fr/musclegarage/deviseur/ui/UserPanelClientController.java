@@ -14,7 +14,11 @@ public class UserPanelClientController {
     @FXML
     private TextField txtName, txtSurname, txtAddress;
 
+    @FXML
     private ClientDao clientDao;
+
+    @FXML
+    private TextField txtEmail;
 
     @FXML
     public void initialize() {
@@ -26,6 +30,7 @@ public class UserPanelClientController {
                 txtName.setText(c.getClientName());
                 txtSurname.setText(c.getClientSurname());
                 txtAddress.setText(c.getClientAddress());
+                txtEmail.setText(c.getClientEmail());
             }
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "BD inaccessible: " + e.getMessage()).showAndWait();
@@ -38,7 +43,8 @@ public class UserPanelClientController {
         String name = txtName.getText().trim();
         String surname = txtSurname.getText().trim();
         String address = txtAddress.getText().trim();
-        if (name.isEmpty() || surname.isEmpty() || address.isEmpty()) {
+        String email = txtEmail.getText().trim();
+        if (name.isEmpty() || surname.isEmpty() || address.isEmpty() || email.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Tous les champs sont requis.").showAndWait();
             return;
         }
@@ -52,6 +58,7 @@ public class UserPanelClientController {
             c.setClientName(name);
             c.setClientSurname(surname);
             c.setClientAddress(address);
+            c.setClientEmail(email);
 
             // Si c.getId()==0 alors c'est un nouveau client, sinon on devrait update
             if (c.getId() == 0) {
